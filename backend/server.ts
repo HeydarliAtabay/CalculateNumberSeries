@@ -16,18 +16,22 @@ app.get("/", (req: Request, res: Response) => {
 
 const tickets: number[] = [];
 const inputs: InputBody[] = [];
-let reads:number[]=[]
+let reads: number[] = [];
 
 app.post("/endpoint.com/input", (req: Request, res: Response) => {
   const input = req.body;
-  if (!input) {
-    res.status(400).send("No input body");
-  } else {
-    if (input.data !== undefined) {
-      tickets.push(tickets.length + 1);
-      inputs.push(input);
-      res.status(201).json({ ticket: tickets[tickets.length - 1] });
+  try {
+    if (!input) {
+      res.status(400).send("No input body");
+    } else {
+      if (input.data !== undefined) {
+        tickets.push(tickets.length + 1);
+        inputs.push(input);
+        res.status(201).json({ ticket: tickets[tickets.length - 1] });
+      }
     }
+  } catch {
+    res.status(500).json(`The problem occures during input addition process`);
   }
 });
 
@@ -38,8 +42,8 @@ app.get(
     if (ticket_id) {
       tickets.forEach((ticket, index) => {
         if (ticket !== undefined && ticket === Number(ticket_id)) {
-          reads.push(ticket)
-          console.log(reads)
+          reads.push(ticket);
+          console.log(reads);
           if (inputs[index].data !== undefined) {
             let result = 0;
             if (inputs[index].type === 1) {
@@ -59,22 +63,21 @@ app.get(
             if (inputs[index].type === 4) {
               result = fibbonaci(inputs[index].number);
             }
-            console.log(result);
+            res.status(201).json({ "number series": result });
+          }
+          else {
+            res.status(500).json(`There is no ticket with id ${ticket_id}`);
           }
         }
       });
-    }
-    else{
-      res.status(500).json(`There is no ticket with id ${ticket_id}`)
     }
   }
 );
 
 app.get("/endpoint.com/inProgress", (req: Request, res: Response) => {
-  reads.forEach((read)=>{
-    res.send(tickets.filter((ticket)=>ticket!==read))
-  })
- 
+  reads.forEach((read) => {
+    res.send(tickets.filter((ticket) => ticket !== read));
+  });
 });
 
 app.post("/endpoint.com", (req: Request, res: Response) => {

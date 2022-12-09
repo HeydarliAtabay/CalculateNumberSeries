@@ -18,15 +18,20 @@ const inputs = [];
 let reads = [];
 app.post("/endpoint.com/input", (req, res) => {
     const input = req.body;
-    if (!input) {
-        res.status(400).send("No input body");
-    }
-    else {
-        if (input.data !== undefined) {
-            tickets.push(tickets.length + 1);
-            inputs.push(input);
-            res.status(201).json({ ticket: tickets[tickets.length - 1] });
+    try {
+        if (!input) {
+            res.status(400).send("No input body");
         }
+        else {
+            if (input.data !== undefined) {
+                tickets.push(tickets.length + 1);
+                inputs.push(input);
+                res.status(201).json({ ticket: tickets[tickets.length - 1] });
+            }
+        }
+    }
+    catch (_a) {
+        res.status(500).json(`The problem occures during input addition process`);
     }
 });
 app.get("/endpoint.com/output/ticket=:ticket_id", (req, res) => {
@@ -48,13 +53,13 @@ app.get("/endpoint.com/output/ticket=:ticket_id", (req, res) => {
                     if (inputs[index].type === 4) {
                         result = (0, functions_1.fibbonaci)(inputs[index].number);
                     }
-                    console.log(result);
+                    res.status(201).json({ "number series": result });
+                }
+                else {
+                    res.status(500).json(`There is no ticket with id ${ticket_id}`);
                 }
             }
         });
-    }
-    else {
-        res.status(500).json(`There is no ticket with id ${ticket_id}`);
     }
 });
 app.get("/endpoint.com/inProgress", (req, res) => {
