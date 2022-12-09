@@ -1,0 +1,33 @@
+### Adding new questions
+
+POST http://localhost:3001/endpoint.com/input
+Content-Type: application/json
+
+{"number":4, "type":1, "data":{"start":2, "common":2}}
+
+### Adding new questions
+
+POST http://localhost:3001/endpoint.com/input
+Content-Type: application/json
+
+{"number":5, "type":4, "data":{"start":2, "common":2}}
+
+
+### Connection check
+GET http://localhost:3001/
+
+
+### Adding new questions
+
+POST http://localhost:3001/endpoint.com
+Content-Type: application/json
+
+{"name":"Atabay"}
+
+
+### Connection check
+GET http://localhost:3001/endpoint.com/output/ticket=15
+
+
+### Connection check
+GET http://localhost:3001/endpoint.com/inProgress

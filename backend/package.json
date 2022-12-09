@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "nodemon script/server.js",
+    "start": "node script/server.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q script/server.js\""
   },
   "keywords": [],
@@ -20,6 +20,9 @@
   },
   "dependencies": {
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^5.9.18",
+    "redis": "^3.0.2",
+    "class-validator": "^0.11.0"
   }
 }
